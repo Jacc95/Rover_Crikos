@@ -93,13 +93,29 @@ def track_ball():
                 # draw the circle and centroid on the frame,
                 # then update the list of tracked points
                 x_ros=int(x)
+                y_ros=int(y)
                 cv2.circle(frame, (int(x), int(y)), int(radius),
                     (0, 255, 255), 2)
                 cv2.circle(frame, center, 5, (0, 0, 255), -1)
                 font = cv2.FONT_HERSHEY_SIMPLEX
-                cv2.putText(frame,"%.2fcm" % radius,(450,420), font, 1,(255,255,255),2,cv2.LINE_AA)
-                #cv2.putText(frame, "%.2fcm" % radius,(frame.shape[1] - 250, frame.shape[0] - 20), cv2.FONT_HERSHEY_SIMPLEX,2.0, (0, 255, 0), 3)
-
+                cv2.putText(frame,"%.2fcm" % radius,(500,420), font, 0.5,(255,255,255),2,cv2.LINE_AA)
+                cv2.putText(frame,"%.2f en x" % x,(20,40), font, 0.5,(0,255,0),2,cv2.LINE_AA)
+                cv2.putText(frame,"%.2f en y" % y,(20,80), font, 0.5,(0,255,0),2,cv2.LINE_AA) 
+                
+                #if 290 < x < 310:
+                        #cv2.putText(frame, "Centro" ,(450, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 255), 2)
+                if x < (600/2 -30) :
+                        cv2.putText(frame, "MUEVE X IZQ" ,(400, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 255), 2)
+                elif x > (600/2 +30) :
+                        cv2.putText(frame, "MUEVE X DER" ,(400, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 255), 2)
+                else :
+                        cv2.putText(frame, "X CENTRO" ,(400, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 255), 2)
+                if radius < 50 -5  :
+                        cv2.putText(frame, "ACERCATE" ,(400, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                elif radius > 50 +5 :
+                        cv2.putText(frame, "ALEJATE" ,(400, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                else :
+                        cv2.putText(frame, "SIN MOV" ,(400, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
         # update the points queue
         pts.appendleft(center)
 
@@ -112,8 +128,8 @@ def track_ball():
 
             # otherwise, compute the thickness of the line and
             # draw the connecting lines
-            thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
-            cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
+            #thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
+            #cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
 
         # show the frame to our screen
         cv2.imshow("Frame", frame)
